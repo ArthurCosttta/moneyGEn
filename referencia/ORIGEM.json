@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/ffroliva/gflow-cli",
+  "clone_commit": "a92dde0e33ecef012249e8a6be2175470e6955cd",
+  "clone_branch": "develop",
+  "installed_distribution": "gflow-cli==0.103.1",
+  "source_archive": "gflow-cli-fonte.zip",
+  "note": "Snapshot de leitura do repositorio. A branch develop pode conter recursos posteriores ao pacote publicado; a integracao usa os argumentos conferidos no CLI instalado."
+}

@@ -1,0 +1,675 @@
+{
+  "schema_version": 1,
+  "application_version": "3.0.0",
+  "created_at": "2026-11-24T13:42:26.355992+00:00",
+  "root": "FlowLocal_Windows_v3",
+  "user_data_included": false,
+  "authenticated_traces_included": false,
+  "files": [
+    {
+      "path": "FlowLocal_Windows_v3/ACEITE_NO_WINDOWS.md",
+      "bytes": 1192,
+      "sha256": "cc34ddbff93e605261b0aa95372bbda5982fd7be8eb292ae99df6f61967cf523"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/app.py",
+      "bytes": 29664,
+      "sha256": "691e6974cb2bd77922e67570d8e64af7ebf97cf50aea8a8f1c1b8fb15702db90"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/atualizar.ps1",
+      "bytes": 2637,
+      "sha256": "bfdae7fbecd7167720f8ac6349958e8cecb7d08354ff741586dbbdfabd01a366"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/ATUALIZAR_EXISTENTE.bat",
+      "bytes": 197,
+      "sha256": "4665c759e117f8172592b80df0125a01c47fe0f3c1656f93dfcfdf0994256cc9"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/__init__.py",
+      "bytes": 152,
+      "sha256": "49ba88590f918e48f670709773b095657736c675d7aa4c1b315a568b200be97c"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/adapters/__init__.py",
+      "bytes": 60,
+      "sha256": "c72000a4e724387e2d9693bf49fb1be70faf932c93d23833a5d565ba86ab2019"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/adapters/fake.py",
+      "bytes": 2738,
+      "sha256": "3a412651fb5d9128c986f83770ed94c7fe9dace1a48492ddb505ffb5a3d149d3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/adapters/gflow.py",
+      "bytes": 4608,
+      "sha256": "060c6b2abb586cf7909834f9f63bce397638a8a2beb2e498749bce047dd3a62c"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/approvals.py",
+      "bytes": 2661,
+      "sha256": "29356d90dbb9d78a7c826cb2ee998e8187a89bdfe401deac5d33044f9cfb0117"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/artifacts.py",
+      "bytes": 6273,
+      "sha256": "5195bdae351d0df15af1b52d9c83bcca75a0c6cbfe71a299f4e4742d679b0eab"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/assets.py",
+      "bytes": 6203,
+      "sha256": "82ff8f5586773582ba34efae2f8ca5274465d0766b51396f114658460bc91c68"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/budget.py",
+      "bytes": 1016,
+      "sha256": "cc6b33cba491901a1b28e6d30a757a99ec18bddbc440bdbd118bbb28040141f3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/contracts.py",
+      "bytes": 11930,
+      "sha256": "0412123418fb13bf908a94898285493e9f4f4002db5facf682ed1e7aa5469b56"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/errors.py",
+      "bytes": 1244,
+      "sha256": "7d04d27f4667d72ed426a638c0690e462bbff53aa9bdfd01f7a541906f1a6391"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/event_log.py",
+      "bytes": 285,
+      "sha256": "070c0d7696773b64a1b23eac51777af0cd7f528d0e1bb27f47c252ade1a0fc95"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/image_generation.py",
+      "bytes": 11170,
+      "sha256": "9422f3dc3144c169603d0f4c5ea25d90cfc1d353d4a274535f09ac3d19a9ca74"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/import_service.py",
+      "bytes": 5506,
+      "sha256": "dad638055cf7ab07286190d598b48d1c770d27724c6cbd432a4f81e02e429e0a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/model_registry.py",
+      "bytes": 2854,
+      "sha256": "ab609eadfa8a48c88079b3e0216b5599479bd1fe38050aa8d98a9265e40e2329"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/planner.py",
+      "bytes": 4077,
+      "sha256": "780115038564615e1152e1f627e85dc5471ddc23c202f5ebd4613be0e3d3cf79"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/process_lock.py",
+      "bytes": 1892,
+      "sha256": "6cef450d1749745c10040f1569a8e16065a237713577666e0aac3e5185878c1d"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/recovery.py",
+      "bytes": 1056,
+      "sha256": "af82384dbfa9284e0225c96de61b6085f4f854356f68e93ef4f6f9cf0b0499fc"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/repository.py",
+      "bytes": 32722,
+      "sha256": "eb69681143d2495f3d16726f4a1708f8986e52e67fcb9745e341e3e983d7d6d0"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/security.py",
+      "bytes": 737,
+      "sha256": "2267f1bb0059ba7222c147c9d5ec210f29519daa790722fd1f4d5af1c6a35112"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/service.py",
+      "bytes": 12204,
+      "sha256": "47c3128d39590e46591e7dc92de70580ad6fc79b5b246f55f2176b1b578f8f66"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/backend/worker.py",
+      "bytes": 7354,
+      "sha256": "bfc0db9e2790b146fe689c864df26f32fa92bda3220e2d00554084c7cac4f71a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/bootstrap.ps1",
+      "bytes": 6737,
+      "sha256": "fdcd493e7c0e3642e122cb99a39822f9e5f3c366c57cc4a83799daa197aa90f8"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/dialogs.py",
+      "bytes": 2480,
+      "sha256": "4eb7998807a015c7d67f560afec56c4b927a7262b3c5f650797ea585c7cf160d"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/engine.py",
+      "bytes": 38900,
+      "sha256": "d35e2731325f69d5b8879f98d14033f18a520312a731bef7defb25cce87c7a93"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/resumo.json",
+      "bytes": 859,
+      "sha256": "0f5abc5f354fb2312eb0fe0c6e7b00ad9fb1611230f3dcd57de0eac9c8ac439b"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/exemplos/exemplo_lote.json",
+      "bytes": 327,
+      "sha256": "3dcd533fe5f6297fd1ad122c98d121b3b7d927a3dd58d2abbdb479829b9db4d5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/exemplos/prompts_de_exemplo.txt",
+      "bytes": 383,
+      "sha256": "1097a458161c1b09f5c5ecd76f3019179e3e097efb656f569f9bd46bd9d9ea1c"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/exemplos/teste_01.png",
+      "bytes": 4286,
+      "sha256": "cb58d9973a485717d1c1f195ba77a9ec7f7fa3959e8a2f3b8d9f6b62dd5b0ad2"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/exemplos/teste_02.png",
+      "bytes": 4399,
+      "sha256": "ae403c80920ab4c8c1483bee0101e1221ed5d52c955b9bb0b01af5cab813e554"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/flow_adapter.py",
+      "bytes": 9317,
+      "sha256": "c557f702235a8ac93c5f3e3e25ae470df6a3cfbe18f3e802d05287d879e18d93"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/INICIAR.bat",
+      "bytes": 286,
+      "sha256": "5ee6fc013188ec2793c0d0564bbfaabb26a5abe9fc92d78386f7d61de59f2ee2"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/LEIA-ME.md",
+      "bytes": 4736,
+      "sha256": "e56eb1a9da7459651d726dea3fea1a1780267b204182a88c57400d1ce9a0d741"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/LICENSE.txt",
+      "bytes": 1320,
+      "sha256": "7db699125d3a023488bf3753c69a12312d0ac42ef494604022d0239934606ffb"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/LIMITACOES.md",
+      "bytes": 1982,
+      "sha256": "10c7ea2ef8781fa22c24a4429efdd3e7594c82c8e0b7f1f44becbdf5ef62f0be"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/manifests.py",
+      "bytes": 3367,
+      "sha256": "8122dc470b029a6ad232ee087c9b412438de41d2339d29c77851f6c099b61d49"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/migrations/001_initial.sql",
+      "bytes": 4436,
+      "sha256": "68740c2bb30899356d0916c1c02cbaab96301163e959592be33a41cae23d8fe0"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/package-lock.json",
+      "bytes": 1688,
+      "sha256": "d18937eeb049884a7038490a3a277cc4df580c4b094019fd498aa4235b29b4ab"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/package.json",
+      "bytes": 236,
+      "sha256": "55dd77a793580e4479408ad70d6426377c7a73185f8cf89f64d1c370431b8c02"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/playwright.config.ts",
+      "bytes": 803,
+      "sha256": "c4b65091509e65deb7bbc13d5d9035fb024cba9b48e3daab750a215e8edfc45f"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/ACCOUNT_SAFETY-original.md",
+      "bytes": 8577,
+      "sha256": "ed320c2e9b21291032c17a7aff7e9cd85988443a94322c9e71d9bb94bebc951a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/DISCLAIMER-original.md",
+      "bytes": 5088,
+      "sha256": "867286ee0dd01064e161adcf3b83e2cfbd60d5a5fc6dd854b16fce95cec8983a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/gflow-cli-fonte.zip",
+      "bytes": 9078049,
+      "sha256": "cbb7a3e185caea33d58897ae813cb0e6f6b2dca4bfead4fd71c11bfdece5dbb7"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/LICENSE-gflow-cli.txt",
+      "bytes": 1080,
+      "sha256": "4572ac5b54492aebada6f0791732645401a6b97996dca1e98c44ce2bcd11d93a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/ORIGEM.json",
+      "bytes": 423,
+      "sha256": "c4ca55b1d8fb1adc2589ecfc8dec0208ac020d178fe7052fc998319f7af03b78"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/README-original.md",
+      "bytes": 31011,
+      "sha256": "acddfc604c385209853462415d6cd7273a58faa82e20961dab8362060a0bbbc5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/referencia/USAGE-original.md",
+      "bytes": 175956,
+      "sha256": "73f4af62042c9e24b205c5508496ff7d9e4dbcde2ee404890a7e46f2a7410a43"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/RELATORIO_DE_TESTES.md",
+      "bytes": 2207,
+      "sha256": "3266396e32bf9b2fe4cc8de40b62c563342f37a975bfde14240fa7e2e83a3864"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/schemas/lote.schema.json",
+      "bytes": 2033,
+      "sha256": "5c9a54aaa23f40edd9d3450f5e8f4a60f1219b241881609af066a5d6fbebe842"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/gpt_web.py",
+      "bytes": 8535,
+      "sha256": "6579e2fa86712ccd2c82230abca75f01b376bac3d09d405620dcf44dd4cac666"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/inventory.py",
+      "bytes": 758,
+      "sha256": "720f3fe879aec3e4f7fb056278375399b2fe9d8bc536087bfa70f073bca34fe4"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/package_release.py",
+      "bytes": 4833,
+      "sha256": "0e7d2d5fe3dab889e88d119b8621b33887dbaec1967fb92b90c55b98203ba1d6"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/run_e2e.py",
+      "bytes": 1733,
+      "sha256": "89505c6da7f649a668e8137ba73508e0ce3e8b3488e4511b25d77da080126c67"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/test_server.py",
+      "bytes": 1617,
+      "sha256": "9bccdb3b93fcdb09352c848f6e26d07527c5a173ce24a0edadd8a7eaefd0e243"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/scripts/verify_release.py",
+      "bytes": 1642,
+      "sha256": "1fcc171b337ee20fda79645842ab25636d76998582bd9fa0bac28d7ed7718b49"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/SOMENTE_TESTE.bat",
+      "bytes": 200,
+      "sha256": "223493648616f12315ab543afa17e50f5fcbbc2756700b92a1130a1a0bc76902"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/TESTAR_INTERFACE.bat",
+      "bytes": 591,
+      "sha256": "f6c03bf7de8189f87782569fb262591166f98352431e769d07f3e0b7c4b21b4a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/TESTES_LOCAIS.bat",
+      "bytes": 668,
+      "sha256": "1372d70c429a587cfc4fced9ed6afdedab5b7ecd9467d21d7502d710108e405e"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/e2e/helpers/app.ts",
+      "bytes": 1485,
+      "sha256": "05386b472f853dc735ad34e30dc437a7c6a8657b6cda0e778587ab076356c27a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/e2e/specs/e2e.spec.ts",
+      "bytes": 6826,
+      "sha256": "1d3cde622a41297382f215e77b12af752c187fa866785241bd23fe41275e9f8b"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/e2e/specs/visual.spec.ts",
+      "bytes": 1539,
+      "sha256": "242eac8baf601e6fd81b8299b767592a8b781265beb36cc2155e5a3c127c6cf1"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/test_flowlocal.py",
+      "bytes": 15578,
+      "sha256": "63c6eba7ee4e10b9e3b82ce300d9292ab3664df03fd83d879616c14fc830121a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/test_v2.py",
+      "bytes": 13141,
+      "sha256": "125bc62bfe03acedd9b4a3e1d3e9a83e7e8bdfbdc24434608eedd4d50f33ff99"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/test_v3.py",
+      "bytes": 9408,
+      "sha256": "32cc7832811283e8ba41b4c78b8de219685e28dd0c9fba5b4f82cf6c4733b2e5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/tests/validar_contrato_cli.py",
+      "bytes": 2134,
+      "sha256": "2a656ea6a16e708e3d30ab2b3bafda956523f217dcfa894b9d2d7e82f211b430"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/app.js",
+      "bytes": 3706,
+      "sha256": "2db86928be32906220d54a8db2092f402f4bd50562e7a5d50ab5644c9034088d"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/components/asset-picker.js",
+      "bytes": 1186,
+      "sha256": "2ab7b59cdd193f1a5a5e7ed34abb7a1d02dd3705422277acba9e996a2225939a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/components/status.js",
+      "bytes": 638,
+      "sha256": "5b2a9ea8b708ef062c13a4553a0b8c7541105a06d86f0f4c8a91318d4af1ffe1"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/index.html",
+      "bytes": 1355,
+      "sha256": "dc82a5fd1c4c603cbb88d2aa89ecc2c53b0e4ee6eb852d2d620c833e2bb91dca"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/modelo-lote.json",
+      "bytes": 327,
+      "sha256": "3dcd533fe5f6297fd1ad122c98d121b3b7d927a3dd58d2abbdb479829b9db4d5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/overrides.css",
+      "bytes": 6284,
+      "sha256": "9232362045e58f6b926ce57aab9fa906aa6cc3432f22dc0cdb9f1b3369b0d3bc"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/state.js",
+      "bytes": 3891,
+      "sha256": "b1d00e5740a27ea56783dff4ee75e9f1cd3d14faf58ae934dddeed9fd78b5667"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/style.css",
+      "bytes": 7841,
+      "sha256": "4ab73f287fb63c38f80fb70b15de50a302758c4264111f140f9615ded48ca247"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/views/create.js",
+      "bytes": 19034,
+      "sha256": "f1ddb38f033cc28589e3275e47948c80b840993286a553d089dab7d602e36e3a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/views/review.js",
+      "bytes": 6022,
+      "sha256": "e8627db8f35f3ce7ebb989e96f70b62595e4e8783dc78d0a4b8bf9d215e16194"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/web/views/videos.js",
+      "bytes": 8428,
+      "sha256": "f6b926497b6fa69d520801b5720df0cec6d895b42832c012cfcbca6e6a256dd7"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/01-create-empty.png",
+      "bytes": 57869,
+      "sha256": "a544e30b9ade266189115c4db79c2658f45837a890fb64ebfef97ecc63593c72"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/01-create-empty.json",
+      "bytes": 214,
+      "sha256": "b9eaa27100cd9074f28596111c86fc5e4b0b6c7cf5a89984e4cef7b3a13d7d5f"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/02-create-prompts.png",
+      "bytes": 59159,
+      "sha256": "af6290ae7dd4edf5dd132ba2e5adaa2e1e15906119c4f9b20c90b721524a5de4"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/02-create-prompts.json",
+      "bytes": 216,
+      "sha256": "3e08c790739c4a2de8b40b9dbb80226083cc33dc931cb8ae4ac79fb80f207373"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/03-create-named.png",
+      "bytes": 59587,
+      "sha256": "bebd12b2bd9cc77f2309d4fd97f60874d43feda65bb35b1dc9ee0502347be625"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/03-create-named.json",
+      "bytes": 214,
+      "sha256": "8a9c3084f432934eeb105e009695a2bb4c9dc02b87d021e5c55aaf83d669dd72"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/04-review-draft.png",
+      "bytes": 49275,
+      "sha256": "9a73386ffb68bb154cf2647b7b84605b182dcdcc0e684fe7e965d44f6d5d4fd7"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/04-review-draft.json",
+      "bytes": 253,
+      "sha256": "e3ffcf62551cc68b07568b244e0e06d38b8d081de2bb1a3190f7e335b2182c6b"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/05-review-ready.png",
+      "bytes": 54127,
+      "sha256": "3f3402a9d32e32a9c62a2f15555e2ddae6e65c64874d9c568f2d31c3c5c43276"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/05-review-ready.json",
+      "bytes": 253,
+      "sha256": "a02dd4be5478656e5e03e337355cfb35335a584a18baa0a3d979e20ac1064c83"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/06-consent-modal.png",
+      "bytes": 54127,
+      "sha256": "3f3402a9d32e32a9c62a2f15555e2ddae6e65c64874d9c568f2d31c3c5c43276"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/06-consent-modal.json",
+      "bytes": 254,
+      "sha256": "89c49606a23a43b57df2bd427f70fe3584ec54a327b1c20c4322548e5df7b22c"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/07-videos-queue.png",
+      "bytes": 79749,
+      "sha256": "ef8b00c793291e5b2f5ae90971359e57b4469a7a16a97ef13b44ee16d3faadd3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/07-videos-queue.json",
+      "bytes": 251,
+      "sha256": "bcb2a89ef1db5aeaf407aabf65dd0f7592f6c6c3476eab670a9c00522fdd73b4"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/08-video-verified.png",
+      "bytes": 90420,
+      "sha256": "cd00f21be8ab49ef68903b7116048ddf377bc95f53a3091cdbea68f6cb7b8ad3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/08-video-verified.json",
+      "bytes": 253,
+      "sha256": "e4da466f892eec1b2cd686fad2b89ee3e6f3d37082b5bfad9a60f6ac5c4b762d"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/09-remainder-consent.png",
+      "bytes": 90198,
+      "sha256": "3f0fd786f4d9a73fae5568283258b01ec96e82408d5fc045d626ddb89138689f"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-1440/09-remainder-consent.json",
+      "bytes": 256,
+      "sha256": "1e8449e6e6506d576c79d6462050e8112479a9f8de45833fe36c729b0f32e681"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/01-create-empty.png",
+      "bytes": 50932,
+      "sha256": "13e07b9cf11e685cf4204cb239a2f50e875618430549090778057feccb0f5aae"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/01-create-empty.json",
+      "bytes": 212,
+      "sha256": "659f330df41feb5e6b7e1ca7994933ba155d49d557ee0c276ea221024d4e3099"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/02-create-prompts.png",
+      "bytes": 53522,
+      "sha256": "8b272dcade248e273a4909fbe550b00b0e9518a108061b70693d36597ac1eae7"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/02-create-prompts.json",
+      "bytes": 214,
+      "sha256": "01f99cadee3880165bd5864203564606c8d2cd9e9a151d2e9474091de906ef7b"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/03-create-named.png",
+      "bytes": 49881,
+      "sha256": "c1a35958b728fdefb29a744b66761e0a3da32b68010b37ba13f3bcd7509ff22e"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/03-create-named.json",
+      "bytes": 212,
+      "sha256": "dc17c6d6333af0235900d9cade7f8a624ed705f1df343f35860b8b5d5dd12e85"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/04-review-draft.png",
+      "bytes": 42824,
+      "sha256": "2a037951fece4f56d808feabd3a396741f19a705549b82219497a8594ac77206"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/04-review-draft.json",
+      "bytes": 251,
+      "sha256": "58e949841c09ef18763864f572f831b914d36a325ece0f5da49862af9773caa9"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/05-review-ready.png",
+      "bytes": 45836,
+      "sha256": "01555b60c1fec203332c6c01d9ceeae2b1354e22e1faa7fb2a8f5980f625d8f5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/05-review-ready.json",
+      "bytes": 251,
+      "sha256": "08d555ace7f8630c28af523d5c6233969290c553a257cad40de7c3f75720093d"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/06-consent-modal.png",
+      "bytes": 45836,
+      "sha256": "01555b60c1fec203332c6c01d9ceeae2b1354e22e1faa7fb2a8f5980f625d8f5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/06-consent-modal.json",
+      "bytes": 252,
+      "sha256": "1c45dcb0b8e9adc1972cd4e7f18fe719c1c832945660e595e2d4bdb9cdfd53af"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/07-videos-queue.png",
+      "bytes": 66023,
+      "sha256": "ab1e1435f16c98617aacc30a88656e1089efa25133d21d18cbe3f6a4058af8d0"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/07-videos-queue.json",
+      "bytes": 249,
+      "sha256": "8c81a17f6a4c3c04144fa3f5f24e69fa4f01936e34ed27c8796835895624422a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/08-video-verified.png",
+      "bytes": 77064,
+      "sha256": "7e6956564bf2cdbc89eea9482040c07b0f8ba07925bde6113d191d14c80c5d3a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/08-video-verified.json",
+      "bytes": 251,
+      "sha256": "6560292cff35d4ac9cad3344aebdbb1c20ab7ebdbf158c0afeeac78918b4fc5a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/09-remainder-consent.png",
+      "bytes": 72992,
+      "sha256": "a0a266d93387cb8590a291ab23d13c3af1f041a6f4dde74be75e8c84e44229b2"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-390/09-remainder-consent.json",
+      "bytes": 254,
+      "sha256": "cb6667e95a3e9450a12812c5046767907fa1559ddefe60c269cd8d75a1429b28"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/01-create-empty.png",
+      "bytes": 53107,
+      "sha256": "780e7f93d9ff1600bb6138677e5bfb7d0f0b7ccc891fc376dd39afa806e9845e"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/01-create-empty.json",
+      "bytes": 213,
+      "sha256": "f7975c5030b825c7be8749245bb44241e1408f135485d1c69804dc53fe656c8b"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/02-create-prompts.png",
+      "bytes": 55721,
+      "sha256": "5bca403040038e2f3b02da5a6f54619c762a8a945e506370148c571136eadd0c"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/02-create-prompts.json",
+      "bytes": 215,
+      "sha256": "ba11f71f6ac06cf1a9ef1d0eac36c396db823ce3b53230a4f3e8fb09963c7359"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/03-create-named.png",
+      "bytes": 56077,
+      "sha256": "fc23bd817274b524db6ba74f48a43927b922efda6c89203d70e3567e5b1f58b7"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/03-create-named.json",
+      "bytes": 213,
+      "sha256": "a2b7f2277da9f609fb28c69cb91ea100be29981277898c999536c464cd6cde9a"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/04-review-draft.png",
+      "bytes": 45019,
+      "sha256": "41826c1f2bf5f74af124a2312d97eed79411eebabab3c78f6cac6426d0ccd6f6"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/04-review-draft.json",
+      "bytes": 252,
+      "sha256": "475a642e5bf6e66339c52508248f8385587d503e077d49c67579302877cfbd21"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/05-review-ready.png",
+      "bytes": 44916,
+      "sha256": "1e84f9f051744c0754cb0c67507b29a1c241ef0d1a3bcb44d89515f65af750b3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/05-review-ready.json",
+      "bytes": 252,
+      "sha256": "31475073d033fb6b3574e95123026c34e6544d6d465972657a19697bb2ba98e5"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/06-consent-modal.png",
+      "bytes": 44916,
+      "sha256": "1e84f9f051744c0754cb0c67507b29a1c241ef0d1a3bcb44d89515f65af750b3"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/06-consent-modal.json",
+      "bytes": 253,
+      "sha256": "9d9dcf99f004ed03e348016bb916130cdc27f04bf9008d18c80a24b733cc3bb8"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/07-videos-queue.png",
+      "bytes": 72602,
+      "sha256": "6c50f7b8b002507e62bdbf4cb23fb2ceee65dd9ec58a1897c76827b9dd6e0a06"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/07-videos-queue.json",
+      "bytes": 250,
+      "sha256": "869183061f9a166338e3818a224b57343b3b94d144d503bf6f470a50dcdfd242"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/08-video-verified.png",
+      "bytes": 84008,
+      "sha256": "ccab163c1e7a78d41bec5a7bbd6811373019f985246871f6e4f9ea745336818f"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/08-video-verified.json",
+      "bytes": 252,
+      "sha256": "483d9e2d0355b58e6177e81eda6526acb993fafb06b6c285be82e02164e107fc"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/09-remainder-consent.png",
+      "bytes": 80287,
+      "sha256": "2b80e86072ba4565416bf94d539b1b10c01efd801a9717fadf66e424ba5dddce"
+    },
+    {
+      "path": "FlowLocal_Windows_v3/evidencias/screenshots/fixture-768/09-remainder-consent.json",
+      "bytes": 255,
+      "sha256": "2ebebb75ceee26915f69c953e45872cc36c1addb27781b1933bb4a271f67309e"
+    }
+  ]
+}

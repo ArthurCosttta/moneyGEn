@@ -1,0 +1,15 @@
+.runtime/
+dados/
+saida/
+__pycache__/
+*.py[cod]
+*.tmp
+*.log
+node_modules/
+test-results/
+playwright-report/
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+Thumbs.db

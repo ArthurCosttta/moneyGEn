@@ -1,0 +1,11 @@
+{
+  "name": "01-create-empty",
+  "project": "fixture-1440",
+  "provider_mode": "fixture",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "url": "#//criar",
+  "captured_at": "2026-11-24T13:41:35.164Z"
+}

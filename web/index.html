@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Flow Local</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/criar" aria-label="Flow Local, ir para Criar"><span>FL</span><strong>Flow Local</strong></a>
+    <nav aria-label="Navegação principal">
+      <a data-nav="criar" href="#/criar">Criar</a>
+      <a data-nav="conferir" href="#/conferir">Conferir</a>
+      <a data-nav="videos" href="#/videos">Vídeos</a>
+    </nav>
+    <div class="session"><span class="account-state"><i id="flow-dot"></i><button id="flow-account" class="quiet" type="button">Entrar no Flow</button></span><button id="credits" class="quiet" type="button" title="Atualizar créditos do Flow">— créditos</button><span class="account-state"><i id="gpt-dot"></i><button id="gpt-account" class="quiet" type="button">Entrar no GPT</button></span><button id="shutdown" class="quiet" type="button">Encerrar</button></div>
+  </header>
+  <main id="app" tabindex="-1" aria-live="polite"></main>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

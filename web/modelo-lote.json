@@ -1,0 +1,10 @@
+{
+  "model": "omni-1.2",
+  "aspect": "9:16",
+  "duration": 6,
+  "resolution": null,
+  "takes": [
+    {"image": "teste_01.png", "prompt": "Cole aqui o prompt exato do primeiro vídeo.", "video": "take-01.mp4"},
+    {"image": "teste_02.png", "prompt": "Cole aqui o prompt exato do segundo vídeo.", "video": "take-02.mp4"}
+  ]
+}

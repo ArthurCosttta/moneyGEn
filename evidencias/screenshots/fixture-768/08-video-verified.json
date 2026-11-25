@@ -1,0 +1,11 @@
+{
+  "name": "08-video-verified",
+  "project": "fixture-768",
+  "provider_mode": "fixture",
+  "viewport": {
+    "width": 768,
+    "height": 1024
+  },
+  "url": "#/videos/421fd63c-f6da-4ae5-b04f-b5f26d8a13a9",
+  "captured_at": "2026-11-24T13:40:35.388Z"
+}

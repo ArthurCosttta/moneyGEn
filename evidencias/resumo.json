@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-11-23T20:03:00-03:00",
+  "application_version": "3.0.0",
+  "provider_mode": "fixture",
+  "python_tests": {"status": "VERIFIED", "passed": 54, "failed": 0},
+  "playwright": {"status": "VERIFIED", "version": "1.65.1", "expected": 30, "unexpected": 0, "flaky": 0, "skipped": 0, "workers": 1, "retries": 0},
+  "visual": {"status": "VERIFIED", "screenshots": 27, "viewports": ["390x844", "768x1024", "1440x900"], "reviewed": true},
+  "account_read_only": {"status": "VERIFIED", "identity_matches_expected": true, "identity": "arthurcostacopy@gmail.com"},
+  "live_upload": {"status": "BLOCKED", "reason": "Nenhuma mutação externa sem confirmação na interface."},
+  "live_paid_generation": {"status": "BLOCKED", "credits_spent": 0, "reason": "Sem confirmação de gasto na interface."},
+  "raw_authenticated_traces_in_release": false
+}

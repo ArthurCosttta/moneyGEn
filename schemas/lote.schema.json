@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:flowlocal:batch:1",
+  "title": "FlowLocal Batch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "name", "defaults", "output_dir", "max_credits", "items"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "name": {"type": "string", "minLength": 1, "maxLength": 200},
+    "defaults": {"$ref": "#/$defs/required_settings"},
+    "output_dir": {"type": ["string", "null"], "maxLength": 4096},
+    "max_credits": {"type": ["integer", "null"], "minimum": 0},
+    "items": {"type": "array", "minItems": 1, "maxItems": 1000, "items": {"$ref": "#/$defs/item"}}
+  },
+  "$defs": {
+    "settings": {"type": "object", "additionalProperties": false, "properties": {
+      "model_id": {"type": "string", "minLength": 1, "maxLength": 128},
+      "aspect": {"enum": ["9:16", "16:9", "1:1"]},
+      "duration_seconds": {"type": ["integer", "null"], "minimum": 1, "maximum": 60},
+      "resolution": {"type": ["string", "null"], "maxLength": 32}
+    }},
+    "required_settings": {"allOf": [{"$ref": "#/$defs/settings"}], "required": ["model_id", "aspect", "duration_seconds", "resolution"]},
+    "item": {"type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "prompt", "image", "output_name"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$"},
+        "kind": {"enum": ["i2v", "t2v"]},
+        "prompt": {"type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S"},
+        "image": {"type": ["string", "null"], "maxLength": 4096},
+        "output_name": {"type": ["string", "null"], "maxLength": 180},
+        "overrides": {"$ref": "#/$defs/settings"}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "i2v"}}}, "then": {"properties": {"image": {"type": "string", "minLength": 1}}}},
+        {"if": {"properties": {"kind": {"const": "t2v"}}}, "then": {"properties": {"image": {"type": "null"}}}}
+      ]
+    }
+  }
+}

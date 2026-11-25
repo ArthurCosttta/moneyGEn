@@ -1,0 +1,7 @@
+Exemplos opcionais, nao sao prompts do usuario. Cole um por imagem.
+
+Imagem teste_01.png:
+Camera faz uma aproximacao lenta da forma geometrica. A luz muda suavemente. Manter a composicao vertical e a forma original.
+
+Imagem teste_02.png:
+Camera desliza suavemente para a direita. Pequenas variacoes de luz realcam a forma geometrica. Manter a composicao vertical e a forma original.

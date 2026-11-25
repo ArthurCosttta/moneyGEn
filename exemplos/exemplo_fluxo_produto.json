@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "name": "Campanha Produto HQ (JSON Estruturado)",
+  "inputs": [
+    {
+      "id": "foto_produto",
+      "type": "image",
+      "label": "Foto base do produto",
+      "required": true
+    },
+    {
+      "id": "paleta_img",
+      "type": "image",
+      "label": "Referência de paleta/estilo (opcional)",
+      "required": false
+    },
+    {
+      "id": "direcao_visual",
+      "type": "text",
+      "label": "Direção visual e clima",
+      "required": true,
+      "default": "estética comercial premium, iluminação natural direcional, nitidez fotográfica 8K"
+    }
+  ],
+  "video_defaults": {
+    "model_id": "omni-1.2",
+    "aspect": "9:16",
+    "duration_seconds": 6,
+    "resolution": "720p"
+  },
+  "nodes": [
+    {
+      "id": "produto_sheet",
+      "type": "image_gen",
+      "label": "Sheet do Produto (HQ)",
+      "size": "1024x1536",
+      "prompt": {
+        "objetivo": "Product sheet comercial em estúdio mostrando 3 ângulos do mesmo produto (frontal, 3/4 lateral e detalhe superior)",
+        "qualidade": "fotografia comercial ultra nítida, iluminação de softbox sem sombras duras, textura real do material, fundo branco puro",
+        "regras_fidelidade": "manter 100% do design, proporções, cores, botões e detalhes da imagem anexada",
+        "direcao": "{{input.direcao_visual}}",
+        "evitar": "texto inventado, logos distorcidos, reflexos artificiais, baixa resolução"
+      },
+      "refs": [
+        { "ref": "@input.foto_produto", "role": "subject" }
+      ]
+    },
+    {
+      "id": "fundo",
+      "type": "image_gen",
+      "label": "Cenário / Fundo Base",
+      "size": "1024x1536",
+      "prompt": {
+        "objetivo": "Cenário fotográfico comercial limpo e vazio sobre bancada elegante para ambientar o produto",
+        "composicao": "enquadramento vertical 9:16, plano médio sobre superfície de apoio com profundidade de campo natural",
+        "iluminacao": "luz cinematográfica suave com bokeh elegante ao fundo",
+        "direcao": "{{input.direcao_visual}}",
+        "evitar": "nenhum produto ou caixa no centro da mesa, sem pessoas, sem textos"
+      },
+      "refs": []
+    },
+    {
+      "id": "cena_01",
+      "type": "image_gen",
+      "label": "Cena 01 · Hero no Cenário",
+      "depends_on": ["produto_sheet", "fundo"],
+      "size": "1024x1536",
+      "prompt": {
+        "objetivo": "Integrar o produto do sheet sobre o cenário base com realismo fotográfico de campanha",
+        "sujeito": "produto fiel à primeira referência, centralizado sobre a superfície da segunda referência",
+        "iluminacao": "sombras de contato realistas e reflexos naturais do produto na superfície",
+        "camera": "lente 50mm f/2.0, foco cravado no produto, alta definição",
+        "direcao": "{{input.direcao_visual}}"
+      },
+      "refs": [
+        { "ref": "@node.produto_sheet.asset_id", "role": "subject" },
+        { "ref": "@node.fundo.asset_id", "role": "composition" }
+      ]
+    },
+    {
+      "id": "cena_02",
+      "type": "image_gen",
+      "label": "Cena 02 · Close-up Detalhes",
+      "depends_on": ["produto_sheet", "fundo"],
+      "size": "1024x1536",
+      "prompt": {
+        "objetivo": "Close-up macro comercial em ângulo 45 graus destacando acabamento e texturas do produto no cenário",
+        "sujeito": "produto fiel à primeira referência em primeiro plano dentro do ambiente da segunda referência",
+        "camera": "lente 85mm macro f/1.8, desfoque cremoso ao fundo, nitidez extrema",
+        "direcao": "{{input.direcao_visual}}"
+      },
+      "refs": [
+        { "ref": "@node.produto_sheet.asset_id", "role": "subject" },
+        { "ref": "@node.fundo.asset_id", "role": "composition" }
+      ]
+    },
+    {
+      "id": "videos",
+      "type": "video_batch",
+      "label": "Gerar Vídeos no Flow",
+      "depends_on": ["cena_01", "cena_02"],
+      "items": [
+        {
+          "asset": "@node.cena_01.asset_id",
+          "prompt": "Movimento lento e estável de câmera aproximando do produto sobre a superfície com iluminação natural suave.",
+          "output_name": "cena-01.mp4"
+        },
+        {
+          "asset": "@node.cena_02.asset_id",
+          "prompt": "Movimento orbital curto e suave em close-up destacando texturas e iluminação do produto.",
+          "output_name": "cena-02.mp4"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "05-review-ready",
+  "project": "fixture-1440",
+  "provider_mode": "fixture",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "url": "#/conferir/cd91aa5c-e1df-4a79-9419-c418adc96ee5",
+  "captured_at": "2026-11-24T13:41:36.505Z"
+}
