@@ -39,3 +39,28 @@ export async function renderVideos(root,id){
   root.querySelector('#approve').addEventListener('click',()=>{const dialog=remainderDialog(remaining.length);root.append(dialog);dialog.showModal();dialog.addEventListener('close',async()=>{if(dialog.returnValue!=='approve')return;try{await api('/api/batch',{method:'POST',body:{batch_id:batch.id,expected_revision:batch.revision,plan_hash:batch.plan_hash,idempotency_key:uid('remaining'),item_ids:remaining.map(item=>item.id),confirmed:true,risk:true,reviewed:true,unknown_cost_accepted:true}});toast('Restantes enfileirados.');window.dispatchEvent(new Event('flowlocal-refresh'))}catch(error){toast(error.message)}})});
   root.querySelector('#export').addEventListener('click',async()=>{try{const result=await api('/api/exports',{method:'POST',body:{batch_id:batch.id,artifact_ids:valid.map(item=>item.artifact_id)}});const node=root.querySelector('#export-state');node.className='notice';node.textContent='Preparando ZIP…';for(let i=0;i<30;i++){await new Promise(resolve=>setTimeout(resolve,500));const state=await api(`/api/exports/${result.export_id}`);if(state.state==='SUCCEEDED'){node.className='notice good';node.innerHTML=`ZIP pronto. <a class="button" href="${state.download_url}">Baixar</a>`;break}if(state.state==='FAILED')throw new Error(state.error_code)}}catch(error){toast(error.message)}});
 }
+
+export async function openVideosModal(host,batchId){
+  const dlg=document.createElement('dialog');
+  dlg.className='hub-dialog';
+  dlg.innerHTML=`
+    <div class="hub-dialog-head">
+      <strong>Vídeos Gerados</strong>
+      <button type="button" class="quiet" id="hub-vid-close">Fechar ×</button>
+    </div>
+    <div class="hub-dialog-body"></div>`;
+  host.append(dlg);
+  dlg.showModal();
+  const body=dlg.querySelector('.hub-dialog-body');
+  let alive=true;
+  const poll=setInterval(async()=>{
+    if(!alive||!store.current?.id)return;
+    try{
+      const r=await api(`/api/events?batch_id=${encodeURIComponent(store.current.id)}&after_event_id=${store.lastEventId||0}&limit=20`);
+      if(r.events?.length)await renderVideos(body,store.current.id);
+    }catch{}
+  },2200);
+  dlg.querySelector('#hub-vid-close').addEventListener('click',()=>{alive=false;clearInterval(poll);dlg.close();dlg.remove()});
+  dlg.addEventListener('close',()=>{alive=false;clearInterval(poll);dlg.remove()});
+  await renderVideos(body,batchId);
+}

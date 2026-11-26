@@ -62,12 +62,30 @@ class GptChatService:
         env["PYTHONUTF8"] = "1"
         return env
 
+    @staticmethod
+    def _preferred_session(chrome_use: Path, env: dict[str, str]) -> str | None:
+        try:
+            probe = subprocess.run(
+                [str(chrome_use), "status", "--json"],
+                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=5, env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+            )
+            if probe.returncode == 0 and probe.stdout.strip():
+                data = json.loads(probe.stdout.strip().splitlines()[-1])
+                sessions = ((data.get("data") or {}) if isinstance(data, dict) else {}).get("sessions") or []
+                if any(isinstance(s, dict) and s.get("name") == "chatgpt-web" for s in sessions):
+                    return "chatgpt-web"
+        except (OSError, subprocess.SubprocessError, ValueError, TypeError):
+            pass
+        return None
+
     def ask_json(
         self,
         prompt: str,
         *,
         new_chat: bool = True,
         conversation: str | None = None,
+        project: str | None = None,
         timeout: int = 180,
     ) -> dict[str, Any]:
         chrome_use = self._chrome_use_path()
@@ -75,35 +93,68 @@ class GptChatService:
             prompt.strip()
             + "\n\nResponda EXCLUSIVAMENTE com um JSON válido, sem explicações antes ou depois."
         )
-        command = [str(chrome_use), "site", "chatgpt/ask", strict_prompt, "--json", "--timeout", str(timeout)]
-        if conversation:
-            command += ["--conversation", conversation]
-        elif new_chat:
-            command.append("--new")
-        fd_out, out_name = tempfile.mkstemp(prefix="gpt-chat-out-", suffix=".txt")
-        fd_err, err_name = tempfile.mkstemp(prefix="gpt-chat-err-", suffix=".txt")
-        try:
-            with os.fdopen(fd_out, "w", encoding="utf-8") as fout, os.fdopen(fd_err, "w", encoding="utf-8") as ferr:
-                completed = subprocess.run(
-                    command,
-                    stdin=subprocess.DEVNULL,
-                    stdout=fout,
-                    stderr=ferr,
-                    timeout=timeout + 30,
-                    env=self._env(),
-                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
-                )
-            raw = Path(out_name).read_text(encoding="utf-8", errors="replace").strip()
-            err = Path(err_name).read_text(encoding="utf-8", errors="replace").strip()
-        except subprocess.TimeoutExpired as exc:
-            raise FlowError("GPT_TIMEOUT", "O ChatGPT Web não respondeu o JSON dentro do tempo limite.", status=504) from exc
-        finally:
-            for tmp in (out_name, err_name):
-                try:
-                    os.unlink(tmp)
-                except OSError:
-                    pass
-        if completed.returncode != 0:
+        proj_val = str(project or "").strip() or None
+        conv_val = str(conversation or "").strip() or None
+        # Users often paste a /c/<id> conversation link into the "Projeto / Sessão" field:
+        # route /c/ URLs cleanly to --conversation instead of invalid --project.
+        if proj_val and ("/c/" in proj_val or re.fullmatch(r"c/[A-Za-z0-9-]+", proj_val)):
+            if not conv_val:
+                conv_val = proj_val
+            proj_val = None
+        # Extract /g/g-p-... project path if full URL was pasted, or /c/... for conversation
+        if proj_val and "chatgpt.com" in proj_val and "/g/" in proj_val and "/g/g-p-" not in proj_val:
+            # Custom GPT (/g/g-xxx without g-p-) isn't supported by --project flag directly; keep project unset if incompatible
+            m_gp = re.search(r"(g-p-[A-Za-z0-9-]+)", proj_val)
+            if m_gp:
+                proj_val = m_gp.group(1)
+
+        env = self._env()
+        session_name = self._preferred_session(chrome_use, env)
+        candidate_sessions: list[str | None] = [session_name, None] if session_name else [None]
+
+        raw = ""
+        err = ""
+        completed = None
+        for idx, sess in enumerate(candidate_sessions):
+            command = [str(chrome_use), "site", "chatgpt/ask", strict_prompt, "--json", "--timeout", str(timeout)]
+            if sess:
+                command += ["--session", sess]
+            if proj_val:
+                command += ["--project", proj_val]
+            if conv_val:
+                command += ["--conversation", conv_val]
+            elif new_chat and not proj_val:
+                command.append("--new")
+            fd_out, out_name = tempfile.mkstemp(prefix="gpt-chat-out-", suffix=".txt")
+            fd_err, err_name = tempfile.mkstemp(prefix="gpt-chat-err-", suffix=".txt")
+            try:
+                with os.fdopen(fd_out, "w", encoding="utf-8") as fout, os.fdopen(fd_err, "w", encoding="utf-8") as ferr:
+                    completed = subprocess.run(
+                        command,
+                        stdin=subprocess.DEVNULL,
+                        stdout=fout,
+                        stderr=ferr,
+                        timeout=timeout + 30,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+                    )
+                raw = Path(out_name).read_text(encoding="utf-8", errors="replace").strip()
+                err = Path(err_name).read_text(encoding="utf-8", errors="replace").strip()
+            except subprocess.TimeoutExpired as exc:
+                raise FlowError("GPT_TIMEOUT", "O ChatGPT Web não respondeu o JSON dentro do tempo limite.", status=504) from exc
+            finally:
+                for tmp in (out_name, err_name):
+                    try:
+                        os.unlink(tmp)
+                    except OSError:
+                        pass
+            if completed.returncode == 0:
+                break
+            low_attempt = (err + "\n" + raw).casefold()
+            if idx + 1 < len(candidate_sessions) and any(t in low_attempt for t in ("logged-in", "login", "sign in", "connection_failed", "carried-tabs")):
+                continue
+            break
+        if completed and completed.returncode != 0:
             detail = err or raw
             lowered = detail.casefold()
             short = " | ".join(line.strip() for line in detail.splitlines() if line.strip())[:240]
@@ -115,8 +166,8 @@ class GptChatService:
                 raise FlowError("CHROME_EXTENSION_REQUIRED", "Extensão chrome-use desconectada no Chrome.", status=409, provider_message=detail[:1500])
             if any(term in lowered for term in ("connection_failed", "browser is gone", "carried-tabs", "closed connection", "timed out", "debugger stopped responding")):
                 raise FlowError("CHROME_SESSION_STALE", f"A sessão do Chrome via chrome-use falhou ou travou ({short}). Tente novamente ou recarregue a extensão em chrome://extensions.", status=409, provider_message=detail[:1500])
-            if any(term in lowered for term in ("login", "sign in", "unauthorized", "401")):
-                raise FlowError("GPT_LOGIN_REQUIRED", "Entre em chatgpt.com no Chrome conectado e tente novamente.", status=401, provider_message=detail[:1500])
+            if any(term in lowered for term in ("login", "logged-in", "sign in", "unauthorized", "401")):
+                raise FlowError("GPT_LOGIN_REQUIRED", f"Entre em chatgpt.com no Chrome conectado (extensão chrome-use) e tente novamente. Detalhe: {short}", status=401, provider_message=detail[:1500])
             raise FlowError("GPT_CHAT_FAILED", f"Falha ao consultar o ChatGPT Web: {short}", status=502, provider_message=detail[:1500])
 
         try:

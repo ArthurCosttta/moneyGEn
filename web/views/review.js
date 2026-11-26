@@ -45,3 +45,19 @@ export async function renderReview(root,id){
     finally{button.disabled=false;button.textContent='Gerar agora'}
   });
 }
+
+export async function openReviewModal(host,batchId){
+  const dlg=document.createElement('dialog');
+  dlg.className='hub-dialog';
+  dlg.innerHTML=`
+    <div class="hub-dialog-head">
+      <strong>Conferir Lote</strong>
+      <button type="button" class="quiet" id="hub-rev-close">Fechar ×</button>
+    </div>
+    <div class="hub-dialog-body"></div>`;
+  host.append(dlg);
+  dlg.showModal();
+  dlg.querySelector('#hub-rev-close').addEventListener('click',()=>{dlg.close();dlg.remove()});
+  dlg.addEventListener('close',()=>dlg.remove());
+  await renderReview(dlg.querySelector('.hub-dialog-body'),batchId);
+}

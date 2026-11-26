@@ -42,3 +42,28 @@ class ApprovalService:
         else:
             raise FlowError("SCHEMA_VALIDATION", "Escopo de aprovação inválido.")
         return self.repository.create_approval_execution(payload, scope=scope, item_id=ids[0])
+
+    def start_direct_queue(self, payload: dict) -> dict:
+        if self.no_spend:
+            raise FlowError("NO_SPEND_ACTIVE", "A trava sem gastos está ativa.", status=403)
+        required = {"batch_id", "expected_revision", "plan_hash", "idempotency_key", "item_ids", "confirmed"}
+        if not required <= payload.keys():
+            raise FlowError("SPEND_NOT_CONFIRMED", "Faltam campos da confirmação.", status=403)
+        if payload["confirmed"] is not True:
+            raise FlowError("SPEND_NOT_CONFIRMED", "Confirme o envio da fila na interface.", status=403)
+        batch = self.repository.get_batch(payload["batch_id"])
+        plan = self.repository.get_plan(batch["id"], payload["plan_hash"])
+        validate_budget(batch, plan["quote"], unknown_cost_accepted=bool(payload.get("unknown_cost_accepted", True)))
+        items = self.repository.all_items(batch["id"])
+        ready = [x["id"] for x in items if x["state"] in ("VALIDATED", "READY")]
+        ids = payload["item_ids"]
+        if not isinstance(ids, list) or not ids or ids != ready:
+            raise FlowError("PLAN_STALE", "A lista de itens da fila mudou.", status=409)
+        enriched = {
+            **payload,
+            "direct": True,
+            "risk": bool(payload.get("risk", True)),
+            "reviewed": True,
+            "unknown_cost_accepted": bool(payload.get("unknown_cost_accepted", True)),
+        }
+        return self.repository.create_approval_execution(enriched, scope="REMAINDER", item_id=ids[0])

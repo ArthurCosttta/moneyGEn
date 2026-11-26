@@ -9,14 +9,16 @@
   <link rel="stylesheet" href="/overrides.css">
 </head>
 <body>
-  <header class="topbar">
+  <header class="topbar floating-nav">
     <a class="brand" href="#/criar" aria-label="Flow Local, ir para Criar"><span>FL</span><strong>Flow Local</strong></a>
-    <nav aria-label="Navegação principal">
-      <a data-nav="criar" href="#/criar">Criar</a>
-      <a data-nav="conferir" href="#/conferir">Conferir</a>
-      <a data-nav="videos" href="#/videos">Vídeos</a>
+    <nav aria-label="Navegação principal" class="fl-nav-links">
+      <a data-nav="pesquisar" href="#/pesquisar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> Pesquisar</a>
+      <a data-nav="paginas" href="#/paginas"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Páginas</a>
+      <a data-nav="criar" href="#/criar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Criar</a>
+      <a data-nav="meta-ads" href="#/meta-ads"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> Meta Ads</a>
+      <a data-nav="calendario" href="#/calendario"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Calendário</a>
     </nav>
-    <div class="session"><span class="account-state"><i id="flow-dot"></i><button id="flow-account" class="quiet" type="button">Entrar no Flow</button></span><button id="credits" class="quiet" type="button" title="Atualizar créditos do Flow">— créditos</button><span class="account-state"><i id="gpt-dot"></i><button id="gpt-account" class="quiet" type="button">Entrar no GPT</button></span><button id="shutdown" class="quiet" type="button">Encerrar</button></div>
+    <div class="session"><span class="account-state"><i id="flow-dot"></i><button id="flow-account" class="quiet" type="button">Entrar no Flow</button></span><button id="credits" class="quiet" type="button" title="Atualizar créditos do Flow">— créditos</button><span class="account-state"><i id="gpt-dot"></i><button id="gpt-account" class="quiet" type="button">Entrar no GPT</button></span><span class="account-state"><i id="meta-dot"></i><button id="meta-account" class="quiet" type="button">Entrar no Meta</button></span><button id="shutdown" class="quiet" type="button">Encerrar</button></div>
   </header>
   <main id="app" tabindex="-1" aria-live="polite"></main>
   <div id="toast" role="status" aria-live="polite" hidden></div>

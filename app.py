@@ -52,7 +52,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: http: blob: data:; media-src 'self' https: blob:; frame-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
         for key, value in (extra or {}).items():
             self.send_header(key, value)
         self.end_headers()
@@ -271,13 +271,13 @@ class V3Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: http: blob: data:; media-src 'self' https: blob:; frame-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
         for key, value in (extra or {}).items():
             self.send_header(key, value)
         self.end_headers()
         try:
             self.wfile.write(data)
-        except (BrokenPipeError, ConnectionResetError):
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
             pass
 
     def authorized(self, *, media: bool = False) -> bool:
@@ -301,7 +301,7 @@ class V3Handler(BaseHTTPRequestHandler):
         if self.headers.get_content_type() != "application/json":
             raise FlowError("INVALID_JSON", "Use application/json.")
         length = int(self.headers.get("Content-Length", "0"))
-        limit = 29 * 1024 * 1024 if urlsplit(self.path).path in {"/api/stage", "/api/library/import"} else 5 * 1024 * 1024
+        limit = 29 * 1024 * 1024 if urlsplit(self.path).path in {"/api/stage", "/api/library/import", "/api/editor/upload-audio"} else 5 * 1024 * 1024
         if not 1 <= length <= limit:
             raise FlowError("PAYLOAD_LIMIT", "Requisição muito grande ou vazia.", status=413)
         value = strict_loads(self.rfile.read(length))
@@ -364,7 +364,7 @@ class V3Handler(BaseHTTPRequestHandler):
                         break
                     self.wfile.write(chunk)
                     remaining -= len(chunk)
-        except (BrokenPipeError, ConnectionResetError):
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
             pass
 
     def handle_error(self, exc: Exception):
@@ -398,6 +398,24 @@ class V3Handler(BaseHTTPRequestHandler):
                     self.send_file(Path(artifact["path"]))
                 elif path.startswith("/media/exports/"):
                     self.send_file(service.export_path(path.rsplit("/", 1)[1]), attachment=True)
+                elif path.startswith("/media/editor/"):
+                    rel_parts = [part for part in path[len("/media/editor/"):].split("/") if part]
+                    if len(rel_parts) < 2:
+                        raise FlowError("ARTIFACT_NOT_FOUND", "Mídia do editor inválida.", status=404)
+                    self.send_file(service.editor.verified_media_path(rel_parts[0], *rel_parts[1:]))
+                elif path.startswith("/media/spy/"):
+                    rel_parts = [part for part in path[len("/media/spy/"):].split("/") if part]
+                    if len(rel_parts) != 2:
+                        raise FlowError("ARTIFACT_NOT_FOUND", "Mídia do Spy inválida.", status=404)
+                    self.send_file(service.spy.verified_media_path(rel_parts[0], rel_parts[1]))
+                elif path == "/media/local":
+                    raw_p = (query.get("path") or [""])[0]
+                    cand = Path(raw_p).resolve() if raw_p else Path("")
+                    allowed_roots = (service.root.resolve(), service.data.resolve(), service.output.resolve())
+                    allowed_ext = {".mp4", ".mov", ".webm", ".png", ".jpg", ".jpeg", ".webp"}
+                    if not raw_p or not cand.is_file() or cand.suffix.lower() not in allowed_ext or not any(cand.is_relative_to(r) for r in allowed_roots):
+                        raise FlowError("ARTIFACT_NOT_FOUND", "Mídia local não encontrada.", status=404)
+                    self.send_file(cand)
                 else:
                     parts = path.split("/")
                     if len(parts) != 4:
@@ -416,6 +434,55 @@ class V3Handler(BaseHTTPRequestHandler):
                 self.send_json(200, service.repository.list_events((query.get("batch_id") or [""])[0], int((query.get("after_event_id") or [0])[0]), int((query.get("limit") or [200])[0])))
             elif path == "/api/library":
                 self.send_json(200, service.images.list())
+            elif path == "/api/meta-ads/status":
+                self.send_json(200, service.meta_ads.status())
+            elif path == "/api/meta-ads/accounts":
+                self.send_json(200, service.meta_ads.list_accounts())
+            elif path == "/api/meta-ads/campaigns":
+                self.send_json(200, service.meta_ads.list_campaigns((query.get("account_id") or [None])[0], date_preset=(query.get("date_preset") or ["last_7d"])[0], status=(query.get("status") or [None])[0]))
+            elif path == "/api/meta-ads/adsets":
+                self.send_json(200, service.meta_ads.list_adsets((query.get("account_id") or [None])[0], campaign_id=(query.get("campaign_id") or [None])[0], date_preset=(query.get("date_preset") or ["last_7d"])[0]))
+            elif path == "/api/meta-ads/ads":
+                self.send_json(200, service.meta_ads.list_ads((query.get("account_id") or [None])[0], adset_id=(query.get("adset_id") or [None])[0], campaign_id=(query.get("campaign_id") or [None])[0], date_preset=(query.get("date_preset") or ["last_7d"])[0]))
+            elif path == "/api/meta-ads/resources":
+                self.send_json(200, service.meta_ads.list_resources((query.get("account_id") or [None])[0]))
+            elif path == "/api/meta-ads/summary":
+                self.send_json(200, service.meta_ads.account_summary((query.get("account_id") or [None])[0], date_preset=(query.get("date_preset") or ["last_7d"])[0]))
+            elif path == "/api/editor/capabilities":
+                self.send_json(200, service.editor.capabilities())
+            elif path == "/api/editor/videos":
+                self.send_json(200, service.editor.list_videos((query.get("folder") or [None])[0]))
+            elif path == "/api/editor/audios":
+                self.send_json(200, service.editor.list_audios())
+            elif path == "/api/editor/projects":
+                self.send_json(200, service.editor.list_projects())
+            elif path == "/api/spy/capabilities":
+                self.send_json(200, service.spy.capabilities())
+            elif path == "/api/spy/downloads":
+                self.send_json(200, service.spy.list_downloads())
+            elif path == "/api/spy/trending":
+                self.send_json(
+                    200,
+                    service.spy.trending_products(
+                        (query.get("country") or ["BR"])[0],
+                        keywords=(query.get("keywords") or [None])[0],
+                        track=(query.get("track") or ["all"])[0],
+                        categories=(query.get("categories") or [None])[0],
+                    ),
+                )
+            elif path == "/api/spy/gpt-config":
+                self.send_json(200, service.spy.get_gpt_config())
+            elif path == "/api/calendar":
+                self.send_json(
+                    200,
+                    service.calendar.summary(
+                        (query.get("month") or [None])[0],
+                        since=(query.get("since") or [None])[0],
+                        until=(query.get("until") or [None])[0],
+                        range_preset=(query.get("range_preset") or [None])[0],
+                        account_id=(query.get("account_id") or [None])[0],
+                    ),
+                )
             elif path == "/api/flows":
                 self.send_json(200, {"items": service.flows.list_runs()})
             elif path == "/api/flows/template":
@@ -482,10 +549,84 @@ class V3Handler(BaseHTTPRequestHandler):
                 result = service.logout_gpt()
             elif method == "POST" and path == "/api/gpt-verify":
                 result = service.verify_gpt()
+            elif method == "POST" and path == "/api/meta-ads/login":
+                result = service.meta_ads.login(body.get("token"), account_id=body.get("account_id"), app_id=body.get("app_id"), app_secret=body.get("app_secret"))
+            elif method == "POST" and path == "/api/meta-ads/logout":
+                result = service.meta_ads.logout()
+            elif method == "POST" and path == "/api/meta-ads/defaults":
+                result = service.meta_ads.save_defaults(body)
+            elif method == "POST" and path == "/api/meta-ads/pixels":
+                result = service.meta_ads.create_pixel(body.get("account_id"), body.get("name"))
+            elif method == "POST" and path == "/api/meta-ads/status":
+                result = service.meta_ads.update_status(body.get("entity_type"), body.get("entity_id"), body.get("status"), confirmed=bool(body.get("confirmed")))
+            elif method == "POST" and path == "/api/meta-ads/upload":
+                result = service.meta_ads.upload_ad(body)
+                if not result.get("dry_run") and result.get("ad_id"):
+                    from datetime import datetime
+                    try:
+                        service.calendar.create_item({
+                            "scheduled_date": datetime.now().strftime("%Y-%m-%d"),
+                            "kind": "ad",
+                            "title": body.get("ad_name") or "Anúncio Meta (PAUSED)",
+                            "status": "PAUSED",
+                            "media_path": body.get("media_path") or "",
+                            "meta_account_id": result.get("account_id") or "",
+                            "meta_campaign_id": result.get("campaign_id") or "",
+                            "meta_ad_id": result.get("ad_id") or "",
+                            "platform": "Meta Ads",
+                            "notes": body.get("primary_text") or "",
+                        })
+                    except Exception:
+                        pass
+            elif method == "POST" and path == "/api/calendar/items":
+                result = service.calendar.create_item(body)
+            elif method == "PATCH" and re.fullmatch(r"/api/calendar/items/[^/]+", path):
+                result = service.calendar.patch_item(path.rsplit("/", 1)[1], body)
+            elif method == "DELETE" and re.fullmatch(r"/api/calendar/items/[^/]+", path):
+                result = service.calendar.delete_item(path.rsplit("/", 1)[1])
+            elif method == "POST" and path == "/api/editor/analyze":
+                result = service.editor.analyze_video(body.get("path"), run_whisper=bool(body.get("run_whisper", True)), run_scenes=bool(body.get("run_scenes", True)), extract_frames=bool(body.get("extract_frames", True)), force=bool(body.get("force", False)))
+            elif method == "POST" and path == "/api/editor/render":
+                result = service.editor.render_video(body)
+            elif method == "POST" and path == "/api/editor/render-timeline":
+                result = service.editor.render_timeline(body)
+            elif method == "POST" and path == "/api/editor/upload-audio":
+                result = service.editor.upload_audio(body.get("name"), body.get("content"))
+            elif method == "POST" and path == "/api/editor/projects":
+                result = service.editor.save_project(body)
+            elif method == "POST" and path == "/api/editor/open-folder":
+                folder = Path(str(body.get("folder") or service.output)).resolve()
+                if not folder.is_dir():
+                    raise FlowError("SCHEMA_VALIDATION", "Pasta não encontrada.")
+                if os.name == "nt":
+                    os.startfile(str(folder))
+                    result = {"opened": True, "path": str(folder)}
+                else:
+                    result = {"opened": False, "path": str(folder)}
+            elif method == "POST" and path == "/api/spy/search":
+                result = service.spy.search(body)
+            elif method == "POST" and path == "/api/spy/download":
+                result = service.spy.download_media(body)
+            elif method == "POST" and path == "/api/spy/download-transcribe":
+                result = service.spy.download_and_transcribe(body)
+            elif method == "POST" and path == "/api/spy/capture":
+                result = service.spy.capture_page(body.get("url"))
+            elif method == "POST" and path == "/api/spy/save-page":
+                result = service.spy.save_edited_page(body.get("filename"), body.get("html"))
+            elif method == "POST" and path == "/api/spy/resolve-stream":
+                result = service.spy.resolve_stream(body.get("url"))
+            elif method == "POST" and path == "/api/spy/gpt-config":
+                result = service.spy.save_gpt_config(body)
+            elif method == "POST" and path == "/api/spy/offer-prompt":
+                result = service.spy.build_offer_prompt(body)
+            elif method == "POST" and path == "/api/spy/offer-to-flow":
+                result = service.spy.offer_to_flow(body)
             elif method == "POST" and path == "/api/test":
                 result, status = service.start(body, "TEST"), 202
             elif method == "POST" and path == "/api/batch":
                 result, status = service.start(body, "REMAINDER"), 202
+            elif method == "POST" and path == "/api/queue-direct":
+                result, status = service.start_direct_queue(body), 202
             elif method == "POST" and path == "/api/image-generate":
                 result = service.generate_image(body)
             elif method == "POST" and path == "/api/gpt-ask":

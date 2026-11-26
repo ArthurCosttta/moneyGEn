@@ -10,15 +10,19 @@ from .adapters.gflow import GFlowAdapter
 from .approvals import ApprovalService
 from .artifacts import ArtifactService
 from .assets import AssetService
+from .calendar_service import CalendarService
 from .contracts import normalize_document, validate_items
 from .errors import FlowError
 from .flow_runner import FlowRunner
 from .gpt_chat import GptChatService
 from .import_service import ImportService
 from .image_generation import ImageGenerationService
+from .meta_ads_service import MetaAdsService
 from .model_registry import ModelRegistry
 from .planner import Planner
 from .repository import Repository
+from .spy_service import SpyService
+from .video_editor import VideoEditorService
 from .worker import Worker
 
 APP_VERSION = "3.0.0"
@@ -49,7 +53,12 @@ class FlowLocalService:
         self.balance = {"credits": None, "checked_at": None, "source": None}
         self.exports: dict[str, dict] = {}
         self.gpt_chat = GptChatService()
+        self.editor = VideoEditorService(self.root, self.data, self.repository)
+        self.meta_ads = MetaAdsService(self.data, self.repository, self.assets, self.editor, no_spend=no_spend)
+        self.calendar = CalendarService(self.root, self.data, self.repository, self.editor, self.meta_ads)
+        self.spy = SpyService(self.root, self.data, self.repository, editor=self.editor, gpt_chat=self.gpt_chat)
         self.flows = FlowRunner(self)
+        self.spy.flow_runner = self.flows
 
     def close(self) -> None:
         self.flows.close()
@@ -67,14 +76,21 @@ class FlowLocalService:
         return {"ready": True, "version": APP_VERSION, "migration_version": self.repository.migration_version()}
 
     def snapshot(self) -> dict:
-        return {"version": APP_VERSION, "session": self.session, "gpt_session": self.images.session_status(), "balance": self.balance, "selected_batch_id": self.repository.selected_batch_id(), "no_spend": self.no_spend, "capabilities": [{"id": x["model_id"], "available": x["available"], "reason": None if x["available"] else x["evidence"], "verification": x.get("verification", "UNVERIFIED")} for x in self.models.list()], "expected_account": EXPECTED_ACCOUNT}
+        return {"version": APP_VERSION, "session": self.session, "gpt_session": self.images.session_status(), "meta_ads": self.meta_ads.status(), "editor": self.editor.capabilities(), "spy": self.spy.capabilities(), "balance": self.balance, "selected_batch_id": self.repository.selected_batch_id(), "no_spend": self.no_spend, "capabilities": [{"id": x["model_id"], "available": x["available"], "reason": None if x["available"] else x["evidence"], "verification": x.get("verification", "UNVERIFIED")} for x in self.models.list()], "expected_account": EXPECTED_ACCOUNT}
 
     def create_batch(self, body: dict) -> dict:
         name = body.get("name")
         defaults = body.get("defaults")
         if not isinstance(name, str) or not name.strip() or not isinstance(defaults, dict):
             raise FlowError("SCHEMA_VALIDATION", "Informe nome e configurações do lote.")
-        batch = self.repository.create_batch(name, defaults, body.get("max_credits"), output_dir=body.get("output_dir") or "")
+        out_dir = str(body.get("output_dir") or "").strip()
+        if not out_dir and body.get("auto_output"):
+            import re
+            slug = re.sub(r"[^a-zA-Z0-9_-]+", "-", name.strip()).strip("-_")[:36] or "lote"
+            candidate = (self.output / f"{slug}-{uuid.uuid4().hex[:6]}").resolve()
+            candidate.mkdir(parents=True, exist_ok=True)
+            out_dir = str(candidate)
+        batch = self.repository.create_batch(name, defaults, body.get("max_credits"), output_dir=out_dir)
         self.repository.select_batch(batch["id"])
         return batch
 
@@ -157,6 +173,11 @@ class FlowLocalService:
 
     def start(self, body: dict, scope: str) -> dict:
         result = self.approvals.start(body, scope)
+        self.worker.poke()
+        return result
+
+    def start_direct_queue(self, body: dict) -> dict:
+        result = self.approvals.start_direct_queue(body)
         self.worker.poke()
         return result
 
